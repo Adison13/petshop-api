@@ -3,7 +3,9 @@ package petshop_api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import petshop_api.entity.Pedido;
+import petshop_api.entity.Produto;
 import petshop_api.repository.PedidoRepository;
+import petshop_api.repository.ProdutoRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,6 +17,9 @@ public class PedidoService {
 
     @Autowired
     private PedidoRepository repository;
+
+    @Autowired
+    private ProdutoRepository produtoRepository;
 
     public List<Pedido> listarTodos() { return repository.findAll(); }
     public Optional<Pedido> buscarPorId(Long id) { return repository.findById(id); }
@@ -29,7 +34,8 @@ public class PedidoService {
         if (pedido.getItens() != null) {
             pedido.getItens().forEach(item -> {
                 item.setPedido(pedido);
-                item.setPrecoUnitario(item.getProduto().getPreco());
+                Produto produto = produtoRepository.findById(item.getProduto().getId()).orElseThrow();
+                item.setPrecoUnitario(produto.getPreco());
             });
             BigDecimal total = pedido.getItens().stream()
                     .map(i -> i.getPrecoUnitario().multiply(BigDecimal.valueOf(i.getQuantidade())))
