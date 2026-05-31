@@ -1,8 +1,8 @@
-# 🐾 Petshop API
+# Petshop API
 
 API REST desenvolvida com Java + Spring Boot para gerenciamento de um e-commerce de produtos para pets.
 
-## 🛠️ Tecnologias utilizadas
+## Tecnologias utilizadas
 
 - Java 24
 - Spring Boot 3.5
